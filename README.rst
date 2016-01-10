@@ -1,7 +1,11 @@
 ======================
 raspberrypi_raw_camera
 ======================
-Acquire RAW images with Raspberry Pi camera (before demosaicking).
+Acquire RAW images with Raspberry Pi camera (before demosaicking) with the
+purpose of looking for muon traces. The sensor is in the dark, colour filters
+are unimportant, so this uses the full resolution of 1944 x 2592.
+
+With inspiration from the Camera Particle Detector (Magdalen College School) 
 
 .. contents::
 
