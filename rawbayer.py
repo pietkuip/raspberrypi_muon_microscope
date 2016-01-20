@@ -36,11 +36,11 @@ def grabframe(cam):
         for byte in range(4): #0.3 sec
             data[:, byte::5] |= ((data[:, 4::5] >> ((4 - byte) * 2)) & 3)
      #   print('{:.1f} sec to unpack 10-bit data'.format(time()-tic))
-        #data = delete(data, s_[4::5], axis=1) #1.2 sec.
+        data = delete(data, s_[4::5], axis=1) #1.2 sec.
 #%% let's speed up elimination of the fifth byte columns -- 1.0 sec instead of 1.2 sec with np.delete
   #      tic = time()
-        colmask = ones(data.shape[1]).astype(bool)
-        colmask[s_[4::5]]=False
-        data = data[:,colmask]
+#        colmask = ones(data.shape[1]).astype(bool)
+#        colmask[s_[4::5]]=False
+#        data = data[:,colmask]
 #        print('{:.1f} sec to eliminate fifth byte columns'.format(time()-tic))
         return data

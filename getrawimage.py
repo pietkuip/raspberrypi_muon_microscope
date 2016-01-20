@@ -15,6 +15,7 @@ from __future__ import division,absolute_import
 from time import sleep,time
 from scipy.misc import bytescale,imsave
 from matplotlib.pyplot import figure,draw,pause
+
 #
 from picamera import PiCamera
 #
@@ -24,9 +25,12 @@ from rawbayer import grabframe
 def pibayerraw(fn,exposure_sec,bit8):
     with PiCamera() as cam: #load camera driver
         print('camera startup gain autocal')
+        #LED automatically turns on, this turns it off
+        cam.led = False
         sleep(0.75) # somewhere between 0.5..0.75 seconds to let camera settle to final gain value.
         setparams(cam,exposure_sec) #wait till after sleep() so that gains settle before turning off auto
         getparams(cam)
+        counter = 1
 #%% main loop
         while True:
 #            tic = time()
@@ -38,12 +42,13 @@ def pibayerraw(fn,exposure_sec,bit8):
             else:
                 img = img10
 #%% write to PNG or JPG or whatever based on file extension
-            if fn:
-                imsave(fn,img)
-                break
-
+            max_value = img.max()
+            print(max_value)
+            if max_value > 100:
+                imsave(fn+'%03d' % counter +'.png',img)
+                counter = counter + 1
+#                break
     return img
-
 if __name__ == '__main__':
     from argparse import ArgumentParser
     p = ArgumentParser(description='Raspberry Pi Picamera demo with raw Bayer data')
