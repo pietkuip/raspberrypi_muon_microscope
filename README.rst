@@ -1,11 +1,12 @@
 ======================
-raspberrypi_raw_camera
+raspberrypi_muon_microscope
 ======================
 Acquire RAW images with Raspberry Pi camera (before demosaicking) with the
 purpose of looking for muon traces. The sensor is in the dark, colour filters
 are unimportant, so this uses the full resolution of 1944 x 2592.
 
-With inspiration from the Camera Particle Detector (Magdalen College School) 
+With inspiration from the Camera Particle Detector (Magdalen College School). Based on the raw Bayer capture method of 
+Michael Hirsch https://scivision.co
 
 .. contents::
 
@@ -44,8 +45,7 @@ Command-Line Options
 Reference
 ========
 In contrast to the 3-D array returned by the `picamera.array.PiBayerArray method <http://picamera.readthedocs.org/en/release-1.10/_modules/picamera/array.html#PiArrayOutput>`_ method, 
-my program collects the raw Bayer data and puts it into a  2-D matrix (not demosaicked). 
-Dimensions 1944 x 2592.
+Hirsch's program collects the raw Bayer data and puts it into a  2-D matrix (not demosaicked). 
+The sensor contains 1944 x 2592 pixels. Pixel size is 1.4 x 1.4 micrometer.
 
-The output ``bsum`` is these groups of 4 pixels summed, yielding a 972x1296 pixel array.
-
+The program writes images of 50x50 pixels to disc, centered on the brightest pixel. Close to the edges, the area is reduced.
