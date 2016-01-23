@@ -15,7 +15,7 @@ from __future__ import division,absolute_import
 from time import sleep,time
 from scipy.misc import bytescale,imsave
 from matplotlib.pyplot import figure,draw,pause
-
+from numpy import unravel_index
 #
 from picamera import PiCamera
 #
@@ -44,8 +44,16 @@ def pibayerraw(fn,exposure_sec,bit8):
 #%% write to PNG or JPG or whatever based on file extension
             max_value = img.max()
             print(max_value)
-            if max_value > 100:
-                imsave(fn+'%03d' % counter +'.png',img)
+            if max_value > 50:
+                idx = unravel_index(img.argmax(), img.shape)
+                xidx = idx[0]
+                yidx = idx[1]
+                print(xidx, yidx)
+                xlow = max(0, xidx-25)
+                ylow = max(0, yidx-25)
+                xhi = min(1944, xidx+25)
+                yhi = min(2592, yidx+25)
+                imsave(fn+'%03d' % counter + '.png',img[xlow:xhi,ylow:yhi])
                 counter = counter + 1
 #                break
     return img
